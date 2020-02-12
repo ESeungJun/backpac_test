@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':network-module', ':utils-module'
 rootProject.name='backpacTest'
