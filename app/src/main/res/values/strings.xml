@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">backpacTest</string>
+
+    <string name="local_title">Local</string>
+    <string name="today_title">Today</string>
+    <string name="tomorrow_title">Tomorrow</string>
 </resources>
