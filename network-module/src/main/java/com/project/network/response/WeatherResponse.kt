@@ -20,9 +20,9 @@ data class WeatherInfo(
     var weatherStateAbbr: String = "",
 
     @SerializedName("the_temp")
-    var theTemp: String = "",
+    var theTemp: Int = 0,
 
     @SerializedName("humidity")
-    var humidity: String = ""
+    var humidity: Float = 0f
 
 )

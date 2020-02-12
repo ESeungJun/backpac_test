@@ -49,6 +49,11 @@ enum class WeatherStatus(val status: String) {
     CLEAT("c"){
         override val fullName: String
             get() = "Clear"
+    },
+
+    NONE("none"){
+        override val fullName: String
+            get() = "none"
     };
 
     abstract val fullName: String

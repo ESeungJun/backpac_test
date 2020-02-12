@@ -20,6 +20,22 @@ class NetworkResponse(
     }
 }
 
+class NetworkListResponse(
+    private var nextListResponse: NetworkListResponse
+) : Consumer<List<BaseApiResponse>> {
+
+    interface NetworkListResponse {
+        fun <T: BaseApiResponse> onNext(apiResponse: List<T>)
+    }
+
+
+    override fun accept(response: List<BaseApiResponse>?) {
+        response?.let {
+            nextListResponse.onNext(it)
+            return
+        }
+    }
+}
 
 class NetworkError(
     private var errorResponse: ErrorResponse

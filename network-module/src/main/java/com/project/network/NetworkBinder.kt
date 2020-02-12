@@ -10,6 +10,7 @@ class NetworkBinder {
 
     private lateinit var disposable: CompositeDisposable
     private lateinit var nextResponse: NetworkResponse.NextResponse
+    private lateinit var nextListResponse: NetworkListResponse.NetworkListResponse
     private lateinit var errorResponse: NetworkError.ErrorResponse
 
 
@@ -33,12 +34,30 @@ class NetworkBinder {
         }
     }
 
+    fun setOnNextList(next: (List<BaseApiResponse>) -> Unit) {
+        this.nextListResponse = object : NetworkListResponse.NetworkListResponse {
+
+            override fun <T : BaseApiResponse> onNext(apiResponse: List<T>) {
+                next(apiResponse)
+            }
+        }
+    }
+
 
     fun <T: BaseApiResponse> execute(request: Single<T>) {
         val callApiRequest = request.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
         disposable.add(
             callApiRequest.subscribe(NetworkResponse(nextResponse), NetworkError(errorResponse))
+        )
+
+    }
+
+    fun <T: BaseApiResponse> executeListResponse(request: Single<List<T>>) {
+        val callApiRequest = request.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+
+        disposable.add(
+            callApiRequest.subscribe(NetworkListResponse(nextListResponse), NetworkError(errorResponse))
         )
 
     }
