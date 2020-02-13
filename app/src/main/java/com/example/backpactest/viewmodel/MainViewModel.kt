@@ -1,18 +1,18 @@
 package com.example.backpactest.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.backpactest.BaseViewModel
-import com.example.backpactest.repository.WeatherRepository
-import com.example.backpactest.vo.LocalVo
-import com.example.backpactest.vo.LocalWeatherVo
-import com.example.backpactest.vo.WeatherStatus
-import com.example.backpactest.vo.WeatherVo
+import com.example.backpactest.model.repository.WeatherRepository
+import com.example.backpactest.model.vo.LocalVo
+import com.example.backpactest.model.vo.LocalWeatherVo
+import com.example.backpactest.model.vo.WeatherStatus
+import com.example.backpactest.model.vo.WeatherVo
 import com.project.network.response.BaseApiResponse
-import com.project.network.response.LocationResponse
-import com.project.network.response.WeatherInfo
-import com.project.network.response.WeatherResponse
+import com.example.backpactest.model.network.response.LocationResponse
+import com.example.backpactest.model.network.response.WeatherResponse
+import com.project.utils.Logger
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -22,6 +22,8 @@ class MainViewModel : BaseViewModel() {
     private val weatherRepository: WeatherRepository
 
     private val innerLocationLiveData = MutableLiveData<List<LocalWeatherVo>>()
+    val locationWeatherLiveData: LiveData<List<LocalWeatherVo>>
+        get() = innerLocationLiveData
 
     private val locationWeatherList = mutableListOf<LocalWeatherVo>()
     private val weatherMap = hashMapOf<String, Pair<WeatherVo, WeatherVo>>()
@@ -47,31 +49,35 @@ class MainViewModel : BaseViewModel() {
 
             locationWeatherList.add(LocalWeatherVo(localVo, null, null))
             requestList.add(weatherRepository.requestWeatherApi(locationResponse.woeid).subscribeOn(Schedulers.io()))
+            Logger.log("TEST", "work add")
         }
 
 
         baseDisposable.add(
             Observable.zip(requestList) { response ->
 
-                val weatherResponse = response as WeatherResponse
+                response.forEachIndexed { index, any ->
+                    val weatherResponse = any as WeatherResponse
 
-                val today = weatherResponse.consolidatedWeather[0]
-                val tomorrow = weatherResponse.consolidatedWeather[1]
+                    val today = weatherResponse.consolidatedWeather[0]
+                    val tomorrow = weatherResponse.consolidatedWeather[1]
 
-                val todayVo = WeatherVo(getWeatherStatus(today.weatherStateAbbr), today.theTemp, today.humidity.toInt())
-                val tomorrowVo = WeatherVo(getWeatherStatus(tomorrow.weatherStateAbbr), tomorrow.theTemp, tomorrow.humidity.toInt())
+                    val todayVo = WeatherVo(getWeatherStatus(today.weatherStateAbbr), today.theTemp.toInt(), today.humidity.toInt())
+                    val tomorrowVo = WeatherVo(getWeatherStatus(tomorrow.weatherStateAbbr), tomorrow.theTemp.toInt(), tomorrow.humidity.toInt())
 
-                Pair(todayVo, tomorrowVo)
-
-            }.observeOn(AndroidSchedulers.mainThread())
-                .subscribe{
-
-                    innerLocationLiveData.postValue()
+                    locationWeatherList[index].todayWeather = todayVo
+                    locationWeatherList[index].tomorrowWeather = tomorrowVo
                 }
 
 
-        )
 
+            }.observeOn(AndroidSchedulers.mainThread())
+                .subscribe{
+                    Logger.log("TEST", "work done")
+                    locationWeatherList.add(0, LocalWeatherVo(null, null, null))
+                    innerLocationLiveData.postValue(locationWeatherList)
+                }
+        )
     }
 
     private fun getWeatherStatus(weather: String): WeatherStatus {

@@ -1,6 +1,7 @@
-package com.project.network.response
+package com.example.backpactest.model.network.response
 
 import com.google.gson.annotations.SerializedName
+import com.project.network.response.BaseApiResponse
 
 data class LocationResponse (
     @SerializedName("title")

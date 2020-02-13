@@ -39,11 +39,15 @@
 
             <ImageView
                 android:id="@+id/todayWeatherIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="0dp"
+                android:layout_marginLeft="10dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintDimensionRatio="40:40"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/todayWeatherName"/>
 
             <TextView
                 android:id="@+id/todayWeatherName"
@@ -112,11 +116,15 @@
 
             <ImageView
                 android:id="@+id/tomorrowWeatherIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="0dp"
+                android:layout_marginLeft="10dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintDimensionRatio="40:40"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tomorrowWeatherName"/>
 
             <TextView
                 android:id="@+id/tomorrowWeatherName"

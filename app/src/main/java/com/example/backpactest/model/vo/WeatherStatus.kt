@@ -1,4 +1,4 @@
-package com.example.backpactest.vo
+package com.example.backpactest.model.vo
 
 enum class WeatherStatus(val status: String) {
     SNOW("sn"){
@@ -26,7 +26,7 @@ enum class WeatherStatus(val status: String) {
             get() = "Heavy Rain"
     },
 
-    LIGHT_RAIN("kr"){
+    LIGHT_RAIN("lr"){
         override val fullName: String
             get() = "Light Rain"
     },

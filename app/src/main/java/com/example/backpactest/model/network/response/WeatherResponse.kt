@@ -1,6 +1,7 @@
-package com.project.network.response
+package com.example.backpactest.model.network.response
 
 import com.google.gson.annotations.SerializedName
+import com.project.network.response.BaseApiResponse
 
 data class WeatherResponse (
 
@@ -20,7 +21,7 @@ data class WeatherInfo(
     var weatherStateAbbr: String = "",
 
     @SerializedName("the_temp")
-    var theTemp: Int = 0,
+    var theTemp: Float = 0f,
 
     @SerializedName("humidity")
     var humidity: Float = 0f

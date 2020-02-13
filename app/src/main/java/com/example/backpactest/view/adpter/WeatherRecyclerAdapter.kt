@@ -9,9 +9,9 @@ import com.example.backpactest.databinding.ItemHeaderViewBinding
 import com.example.backpactest.databinding.ItemLocalWeatherViewBinding
 import com.example.backpactest.view.viewholder.WeatherHeaderViewHolder
 import com.example.backpactest.view.viewholder.WeatherItemViewHolder
-import com.example.backpactest.vo.LocalWeatherVo
-import com.example.backpactest.vo.WeatherStatus
-import com.example.backpactest.vo.WeatherViewType
+import com.example.backpactest.model.vo.LocalWeatherVo
+import com.example.backpactest.model.vo.WeatherStatus
+import com.example.backpactest.model.vo.WeatherViewType
 
 class WeatherRecyclerAdapter : ListAdapter<LocalWeatherVo, RecyclerView.ViewHolder>(WeatherDiffUtil()) {
 
@@ -19,7 +19,8 @@ class WeatherRecyclerAdapter : ListAdapter<LocalWeatherVo, RecyclerView.ViewHold
     override fun getItemViewType(position: Int): Int {
 
         val item = getItem(position)
-        if (item.localName.isEmpty() && item.todayWeather == null && item.tomorrowWeather == null)
+
+        if (item.local == null && item.todayWeather == null && item.tomorrowWeather == null)
             return WeatherViewType.HEADER.value
 
         return WeatherViewType.ITEM.value
@@ -28,9 +29,9 @@ class WeatherRecyclerAdapter : ListAdapter<LocalWeatherVo, RecyclerView.ViewHold
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when(viewType) {
 
-            WeatherViewType.HEADER.value -> {
+            WeatherViewType.ITEM.value -> {
                 val binding = ItemLocalWeatherViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                return WeatherItemViewHolder(binding.root)
+                return WeatherItemViewHolder(binding.root, parent.context)
             }
 
             else -> {
@@ -50,7 +51,7 @@ class WeatherRecyclerAdapter : ListAdapter<LocalWeatherVo, RecyclerView.ViewHold
 
     class WeatherDiffUtil : DiffUtil.ItemCallback<LocalWeatherVo>() {
         override fun areItemsTheSame(oldItem: LocalWeatherVo, newItem: LocalWeatherVo) =
-            oldItem.localName == newItem.localName
+            oldItem.local?.localName ?: "" == newItem.local?.localName ?: ""
 
         override fun areContentsTheSame(oldItem: LocalWeatherVo, newItem: LocalWeatherVo) =
             oldItem.todayWeather?.weatherStatus ?: WeatherStatus.NONE == newItem.todayWeather?.weatherStatus ?: WeatherStatus.NONE

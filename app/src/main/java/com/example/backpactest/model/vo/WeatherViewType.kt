@@ -1,4 +1,4 @@
-package com.example.backpactest.vo
+package com.example.backpactest.model.vo
 
 enum class WeatherViewType(val value: Int) {
     HEADER(0),

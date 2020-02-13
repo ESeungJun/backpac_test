@@ -12,8 +12,9 @@
         <TextView
             android:id="@+id/titleTextView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:text="Local Weather"
+            android:gravity="center_vertical"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintTop_toTopOf="parent"
@@ -31,7 +32,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"/>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

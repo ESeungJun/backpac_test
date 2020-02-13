@@ -1,4 +1,4 @@
-package com.example.backpactest.vo
+package com.example.backpactest.model.vo
 
 data class LocationVo (
     var locationName: String = "",

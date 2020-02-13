@@ -1,8 +1,8 @@
-package com.example.backpactest.vo
+package com.example.backpactest.model.vo
 
 
 data class LocalWeatherVo(
-    var local: LocalVo,
+    var local: LocalVo?,
     var todayWeather: WeatherVo?,
     var tomorrowWeather: WeatherVo?
 )

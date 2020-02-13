@@ -52,7 +52,7 @@ object RetrofitClient{
     private fun buildClient() = Retrofit.Builder().apply {
         addConverterFactory(GsonConverterFactory.create(gson))
         addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
-        baseUrl("http://54.180.6.192:8080/randomOX/")
+        baseUrl("https://www.metaweather.com/api/")
         client(client)
     }.build()
 

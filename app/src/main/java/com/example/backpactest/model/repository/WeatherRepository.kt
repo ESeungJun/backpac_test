@@ -1,10 +1,10 @@
-package com.example.backpactest.repository
+package com.example.backpactest.model.repository
 
-import com.example.backpactest.api.WeatherApiService
+import com.example.backpactest.model.network.ApiController
+import com.example.backpactest.model.network.api.WeatherApiService
 import com.project.network.NetworkBinder
 import com.project.network.RetrofitClient
 import com.project.network.response.BaseApiResponse
-import com.project.network.response.LocationResponse
 import io.reactivex.disposables.CompositeDisposable
 
 class WeatherRepository(private val disposable: CompositeDisposable) {
@@ -17,9 +17,9 @@ class WeatherRepository(private val disposable: CompositeDisposable) {
             setDisposable(disposable)
             setOnError { onError(it) }
             setOnNextList { onNext(it) }
-        }.executeListResponse(RetrofitClient.build().create(WeatherApiService::class.java).searchLocation())
+        }.executeListResponse(ApiController.weatherApiService.searchLocation())
     }
 
     fun requestWeatherApi(weoId: Int) =
-        RetrofitClient.build().create(WeatherApiService::class.java).searchWeatherForLocation(weoId)
+        ApiController.weatherApiService.searchWeatherForLocation(weoId)
 }
