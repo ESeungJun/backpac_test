@@ -34,7 +34,7 @@ class MainActivity : BaseActivityWithVM<ActivityMainBinding, MainViewModel>() {
         }
 
         dataBinding.swipeLayout.setOnRefreshListener {
-            dataBinding.swipeLayout.isRefreshing = false
+            dataBinding.recyclerView.visibility = View.GONE
             viewModel.getLocationWeatherInfo()
         }
 
@@ -46,6 +46,8 @@ class MainActivity : BaseActivityWithVM<ActivityMainBinding, MainViewModel>() {
 
     override fun createObserveData() {
         viewModel.locationWeatherLiveData.observe(this, Observer{
+
+            dataBinding.swipeLayout.isRefreshing = false
 
             dataBinding.recyclerView.visibility = View.VISIBLE
             dataBinding.loadingProgressBar.visibility = View.GONE
