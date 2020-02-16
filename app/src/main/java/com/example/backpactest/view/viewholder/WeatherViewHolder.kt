@@ -34,7 +34,7 @@ class WeatherItemViewHolder(
 
         item.todayWeather?.let {
 
-            binding.todayTemper.text = "${it.temper}"
+            binding.todayTemper.text = "${it.temper}\u2103"
             binding.todayHumidity.text = "${it.humidity}%"
 
             binding.todayWeatherName.text = it.weatherStatus.fullName
@@ -44,7 +44,7 @@ class WeatherItemViewHolder(
 
         item.tomorrowWeather?.let {
 
-            binding.tomorrowTemper.text = "${it.temper}"
+            binding.tomorrowTemper.text = "${it.temper}\u2103"
             binding.tomorrowHumidity.text = "${it.humidity}%"
 
             binding.tomorrowWeatherName.text = it.weatherStatus.fullName

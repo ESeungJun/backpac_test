@@ -55,5 +55,10 @@ class MainActivity : BaseActivityWithVM<ActivityMainBinding, MainViewModel>() {
             mainAdapter.submitList(it)
             mainAdapter.notifyDataSetChanged()
         })
+
+
+        viewModel.errorLiveData.observe(this, Observer {
+            it.printStackTrace()
+        })
     }
 }

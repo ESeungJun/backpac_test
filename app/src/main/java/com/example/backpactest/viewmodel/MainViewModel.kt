@@ -25,8 +25,11 @@ class MainViewModel : BaseViewModel() {
     val locationWeatherLiveData: LiveData<List<LocalWeatherVo>>
         get() = innerLocationLiveData
 
+    private val innerErrorLiveData = MutableLiveData<Throwable>()
+    val errorLiveData: LiveData<Throwable>
+        get() = innerErrorLiveData
+
     private val locationWeatherList = mutableListOf<LocalWeatherVo>()
-    private val weatherMap = hashMapOf<String, Pair<WeatherVo, WeatherVo>>()
 
 
     init {
@@ -40,6 +43,8 @@ class MainViewModel : BaseViewModel() {
 
     private fun onResponseLocationInfo(response: List<BaseApiResponse>) {
 
+        locationWeatherList.clear()
+
         val requestList = mutableListOf<Observable<WeatherResponse>>()
 
 
@@ -49,7 +54,6 @@ class MainViewModel : BaseViewModel() {
 
             locationWeatherList.add(LocalWeatherVo(localVo, null, null))
             requestList.add(weatherRepository.requestWeatherApi(locationResponse.woeid).subscribeOn(Schedulers.io()))
-            Logger.log("TEST", "work add")
         }
 
 
@@ -69,11 +73,8 @@ class MainViewModel : BaseViewModel() {
                     locationWeatherList[index].tomorrowWeather = tomorrowVo
                 }
 
-
-
             }.observeOn(AndroidSchedulers.mainThread())
                 .subscribe{
-                    Logger.log("TEST", "work done")
                     locationWeatherList.add(0, LocalWeatherVo(null, null, null))
                     innerLocationLiveData.postValue(locationWeatherList)
                 }
@@ -130,14 +131,8 @@ class MainViewModel : BaseViewModel() {
     }
 
 
-    private fun getWeatherInfoForLocationList() {
-
-    }
-
     private fun onError(throwable: Throwable) {
-
+        innerErrorLiveData.postValue(throwable)
     }
-
-
 
 }
